@@ -1,3 +1,7 @@
+`Versión Node v20.9.0`
+`Versión PNPM 10.7.1`
+`Docker latest`
+
 Para ejecutar el proyecto localmente, comienza instalando las dependencias necesarias con el comando `pnpm install`, después de esto, copia el archivo `.env.example`, renómbralo a `.env` y asegúrate de copiar el contenido de las variables de entorno allí. Esto es importante, ya que el archivo .env se utiliza para configurar las variables de entorno de forma segura y permite tener configuraciones diferentes entre entornos de desarrollo.
 
 Luego, compila el código con el comando `pnpm run build`, construye el contenedor Docker sin usar caché con `docker-compose build --no-cache`, lo que garantiza una reinstalación de dependencias y una reconstrucción desde cero. Una vez que el contenedor se haya construido, levantaremos dos servicios, utilizando `docker compose up -d postgres` y `docker compose up -d elasticsearch`.
