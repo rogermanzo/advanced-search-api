@@ -4,18 +4,18 @@ services:
   postgres:
     image: postgres:13
     environment:
-      POSTGRES_DB: products_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-     test: ["CMD-SHELL", "pg_isready -U user -d products_db"]
-     interval: 5s
-     timeout: 5s
-     retries: 5
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   elasticsearch:
     image: elasticsearch:7.17.10
@@ -23,7 +23,7 @@ services:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
     ports:
-      - "9200:9200"
+      - "${ES_PORT}:9200"
     volumes:
       - es_data:/usr/share/elasticsearch/data
     healthcheck:
@@ -33,20 +33,20 @@ services:
       retries: 5
 
   app:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "${APP_PORT}:3000"
     depends_on:
       postgres:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
     environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - ES_HOST=elasticsearch
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - ES_HOST=${ES_HOST}
 
 volumes:
   postgres_data:
