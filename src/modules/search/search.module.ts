@@ -8,6 +8,6 @@ import { elasticsearchConfig } from '../../config/elasticsearch.config';
   imports: [ElasticsearchModule.register(elasticsearchConfig)],
   controllers: [SearchController],
   providers: [SearchService],
-  exports: [SearchService]
+  exports: [SearchService],  // Exportamos SearchService para que sea accesible globalmente
 })
 export class SearchModule {}
